@@ -13,13 +13,14 @@ function ConnectedButton() {
   const wallet = useWallet();
   const ref = React.useRef<HTMLDivElement>(null!);
   const address = useWalletAddress();
+  const { address: wagmiAddress } = useAccount();
   const { disconnect } = useDisconnect();
 
   return (
     <>
       {modal && (
         <Modal onClose={() => setModal(false)}>
-          <h1>{truncateString(address.toBase58(), 6, 3)}</h1>
+          <h1>{truncateString(wagmiAddress ?? "", 6, 3)}</h1>
           <GambaUi.Button onClick={() => disconnect()}>
             Disconnect
           </GambaUi.Button>
@@ -29,7 +30,7 @@ function ConnectedButton() {
         <GambaUi.Button onClick={() => setModal(true)}>
           <div style={{ display: "flex", gap: ".5em", alignItems: "center" }}>
             <img src={wallet.wallet?.adapter.icon} height="20px" />
-            {truncateString(address.toBase58(), 3)}
+            {truncateString(wagmiAddress ?? "", 3)}
           </div>
         </GambaUi.Button>
       </div>
